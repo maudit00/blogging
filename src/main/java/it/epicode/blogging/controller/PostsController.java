@@ -1,8 +1,12 @@
 package it.epicode.blogging.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
+import it.epicode.blogging.models.Authors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import it.epicode.blogging.models.Posts;
@@ -19,13 +23,18 @@ public class PostsController {
   private PostService postService;
 
   @GetMapping("posts")
-  public List<Posts> getAll(){
-    return postService.getAllPosts()
+  public List<Posts> getAll() {
+    return postService.getAllPosts();
   }
 
   @GetMapping("posts/{id}")
-  public List<Posts> getSinglePost(@PathVariable int id) {
-    return postService.getById();
+  public ResponseEntity<Posts> setSingleAuthor(@PathVariable int id) {
+    try {
+      Posts p = postService.getById(id);
+      return new ResponseEntity<Posts>(p, HttpStatus.OK);
+    } catch (NoSuchElementException e){
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
   }
 
   @PostMapping("posts")
