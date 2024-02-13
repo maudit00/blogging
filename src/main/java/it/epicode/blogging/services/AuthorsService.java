@@ -31,7 +31,7 @@ public class AuthorsService {
     }
   }
 
-  public void addAuthor(Authors author) {
+  public void saveAuthor(Authors author) {
     authors.add(author);
   }
 

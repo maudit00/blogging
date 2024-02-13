@@ -14,7 +14,7 @@ import it.epicode.blogging.services.PostService;
 import it.epicode.blogging.services.AuthorsService;
 
 @RestController
-@RequestMapping("http://localhost:8080/")
+@RequestMapping("/authors")
 /**
  * AuthorsController
  */
@@ -23,12 +23,12 @@ public class AuthorsController {
   @Autowired
   private AuthorsService authorsService;
 
-  @GetMapping("authors")
+  @GetMapping
   public List<Authors> getAll(){
     return authorsService.getAllAuthors();
   }
 
-  @GetMapping("authors/{id}")
+  @GetMapping("/{id}")
   public ResponseEntity<Authors> setSingleAuthor(@PathVariable int id) {
     try {
       Authors a = authorsService.getById(id);
@@ -38,17 +38,17 @@ public class AuthorsController {
     }
   }
 
-  @PostMapping("authors")
+  @PostMapping
   public void saveAuthor(@RequestBody Authors author) {
-    authorsService.savePost(author);
+    authorsService.saveAuthor(author);
   }
 
-  @PutMapping("authors/{id}")
+  @PutMapping("/{id}")
   public Authors updateAuthor(@PathVariable int id, @RequestBody Authors author) {
     return authorsService.updateAuthors( id, author);
   }
 
-  @DeleteMapping("posts/{id}")
+  @DeleteMapping("/{id}")
   public void deleteAuthor(@PathVariable int id) {
     authorsService.deleteAuthor(id);
   }

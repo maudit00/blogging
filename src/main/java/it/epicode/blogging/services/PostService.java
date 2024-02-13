@@ -44,7 +44,7 @@ public class PostService {
     Posts p = getById(id);
     Authors a = authorService.getById(post.getAuthor().getId());
     if (a == null){
-      throw new NoSuchElementException("Autore non trovato")
+      throw new NoSuchElementException("Autore non trovato");
     }
 
     p.setTitolo(post.getTitolo());

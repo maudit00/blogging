@@ -13,7 +13,7 @@ import it.epicode.blogging.models.Posts;
 import it.epicode.blogging.services.PostService;
 
 @RestController
-@RequestMapping("http://localhost:8080/")
+@RequestMapping("/post")
 /**
  * PostsController
  */
@@ -22,13 +22,13 @@ public class PostsController {
   @Autowired
   private PostService postService;
 
-  @GetMapping("posts")
+  @GetMapping()
   public List<Posts> getAll() {
     return postService.getAllPosts();
   }
 
-  @GetMapping("posts/{id}")
-  public ResponseEntity<Posts> setSingleAuthor(@PathVariable int id) {
+  @GetMapping("/{id}")
+  public ResponseEntity<Posts> getSinglePost(@PathVariable int id) {
     try {
       Posts p = postService.getById(id);
       return new ResponseEntity<Posts>(p, HttpStatus.OK);
@@ -37,17 +37,17 @@ public class PostsController {
     }
   }
 
-  @PostMapping("posts")
+  @PostMapping()
   public void savePost(@RequestBody Posts post) {
     postService.savePost(post);
   }
 
-  @PutMapping("posts/{id}")
+  @PutMapping("/{id}")
   public Posts updatePost(@PathVariable int id, Posts post) {
     return postService.updatePosts(id, post);
   }
 
-  @DeleteMapping("posts/{id}")
+  @DeleteMapping("/{id}")
   public void deletePost(@PathVariable int id) {
     postService.deletePost(id);
   }
