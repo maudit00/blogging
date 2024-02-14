@@ -35,14 +35,14 @@ public class AuthorsService {
     return authorsRepository.save(autore);
   }
 
-  public Authors updateAuthors(int id, Authors authors) throws NotFoundException {
+  public Authors updateAuthors(int id, AuthorRequest authorRequest) throws NotFoundException {
     Authors autore = getById(id);
 
-    autore.setNome(authors.getNome());
-    autore.setCognome(authors.getCognome());
-    autore.setEmail(authors.getEmail());
+    autore.setNome(authorRequest.getNome());
+    autore.setCognome(authorRequest.getCognome());
+    autore.setEmail(authorRequest.getEmail());
     autore.setAvatar("https://ui-avatars.com/api/?name=" + autore.getNome() + "+" + autore.getCognome());
-    autore.setDataDiNascita(authors.getDataDiNascita());
+    autore.setDataDiNascita(authorRequest.getDatadiNascita());
     return authorsRepository.save(autore);
   }
 

@@ -3,6 +3,7 @@ package it.epicode.blogging.controller;
 import it.epicode.blogging.models.AuthorRequest;
 import it.epicode.blogging.models.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,55 +24,28 @@ public class AuthorsController {
   private AuthorsService authorsService;
 
   @GetMapping
-  public ResponseEntity<CustomResponse> getAll(Pageable pageable) {
-    try {
-      return CustomResponse.success(HttpStatus.OK.toString(), authorsService.getAllAuthors(pageable), HttpStatus.OK);
-    } catch (Exception e) {
-      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  public Page<Authors> getAll(Pageable pageable) {
+    return authorsService.getAllAuthors(pageable);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<CustomResponse> getAuthorById(@PathVariable int id) {
-    try {
-      return CustomResponse.success(HttpStatus.OK.toString(), authorsService.getById(id), HttpStatus.OK);
-    } catch (NotFoundException e) {
-      return CustomResponse.error(e.getMessage(), HttpStatus.NOT_FOUND);
-    } catch (Exception e) {
-      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  public Authors getAuthorById(@PathVariable int id) throws NotFoundException {
+    return authorsService.getById(id);
   }
 
   @PostMapping
-  public ResponseEntity<CustomResponse> saveAuthor(@RequestBody AuthorRequest authorRequest) {
-    try {
-      return CustomResponse.success(HttpStatus.OK.toString(), authorsService.saveAuthor(authorRequest), HttpStatus.OK);
-    } catch (Exception e) {
-      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  public Authors  saveAuthor(@RequestBody AuthorRequest authorRequest) {
+   return authorsService.saveAuthor(authorRequest);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<CustomResponse> updateAuthor(@PathVariable int id, @RequestBody Authors author) {
-    try {
-      return CustomResponse.success(HttpStatus.OK.toString(), authorsService.updateAuthors(id, author), HttpStatus.OK);
-    } catch (NotFoundException e) {
-      return CustomResponse.error(e.getMessage(), HttpStatus.NOT_FOUND);
-    } catch (Exception e) {
-      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  public Authors updateAuthor(@PathVariable int id, @RequestBody AuthorRequest authorRequest) throws NotFoundException {
+   return authorsService.updateAuthors(id,authorRequest) ;
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<CustomResponse> deleteAuthor(@PathVariable int id) {
-    try {
-      authorsService.deleteAuthor(id);
-      return CustomResponse.emptyResponse("Autore con id=" + id + " cancellato", HttpStatus.OK);
-    } catch (NotFoundException e) {
-      return CustomResponse.error(e.getMessage(), HttpStatus.NOT_FOUND);
-    } catch (Exception e) {
-      return CustomResponse.error(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  public void deleteAuthor(@PathVariable int id) throws NotFoundException {
+    authorsService.deleteAuthor(id);
   }
 
 }

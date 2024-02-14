@@ -8,7 +8,9 @@ import it.epicode.blogging.models.Authors;
 import it.epicode.blogging.models.CustomResponse;
 import it.epicode.blogging.models.PostRequest;
 
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,57 +30,27 @@ public class PostsController {
   private PostService postService;
 
   @GetMapping
-  public ResponseEntity<CustomResponse> getAll(Pageable pageable) {
-    try {
-      return CustomResponse.success(HttpStatus.OK.toString(), postService.getAllPosts(pageable), HttpStatus.OK);
-    } catch (Exception e) {
-      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  public Page<Posts> getAll(Pageable pageable) {
+    return postService.getAllPosts(pageable);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<CustomResponse> getPostById(@PathVariable int id) {
-    try {
-      return CustomResponse.success(HttpStatus.OK.toString(), postService.getById(id), HttpStatus.OK);
-    } catch (NotFoundException e) {
-      return CustomResponse.error(e.getMessage(), HttpStatus.NOT_FOUND);
-    } catch (Exception e) {
-      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  public Posts getPostById(@PathVariable int id) throws NotFoundException {
+    return postService.getById(id);
   }
 
   @PostMapping
-  public ResponseEntity<CustomResponse> savePost(@RequestBody PostRequest postRequest) {
-    try {
-      return CustomResponse.success(HttpStatus.OK.toString(), postService.savePost(postRequest), HttpStatus.OK);
-    } catch (Exception e) {
-      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  public Posts savePost(@RequestBody PostRequest postRequest) throws NotFoundException{
+    return postService.savePost(postRequest);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<CustomResponse> updatePost(@PathVariable int id, @RequestBody PostRequest postRequest){
-    try {
-      return CustomResponse.success(HttpStatus.OK.toString(), postService.updatePosts(id, postRequest), HttpStatus.OK);
-    }
-    catch (NotFoundException e){
-      return CustomResponse.error(e.getMessage(), HttpStatus.NOT_FOUND);
-    }
-    catch (Exception e){
-      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  public Posts updatePost(@PathVariable int id, @RequestBody PostRequest postRequest) throws NotFoundException{
+   return postService.updatePosts(id,postRequest) ;
   }
   @DeleteMapping("/{id}")
-  public ResponseEntity<CustomResponse> deletePost(@PathVariable int id) {
-    try {
-      postService.deletePost(id);
-      return CustomResponse.emptyResponse("Post con id=" + id + " cancellato", HttpStatus.OK);
-    } catch (NotFoundException e) {
-      return CustomResponse.error(e.getMessage(), HttpStatus.NOT_FOUND);
-    } catch (Exception e) {
-      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  public void deletePost(@PathVariable int id) throws NotFoundException {
+    postService.deletePost(id);
   }
-
 
   }
