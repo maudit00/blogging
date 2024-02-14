@@ -1,9 +1,6 @@
 package it.epicode.blogging.services;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+
 
 import it.epicode.blogging.exceptions.NotFoundException;
 import it.epicode.blogging.repository.AuthorsRepository;
@@ -13,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import it.epicode.blogging.models.Authors;
-import it.epicode.blogging.repository.AuthorsRepository;
 
 @Service
 /**
