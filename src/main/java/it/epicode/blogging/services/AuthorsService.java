@@ -3,6 +3,7 @@ package it.epicode.blogging.services;
 
 
 import it.epicode.blogging.exceptions.NotFoundException;
+import it.epicode.blogging.models.AuthorRequest;
 import it.epicode.blogging.repository.AuthorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,8 +30,9 @@ public class AuthorsService {
         .orElseThrow(() -> new NotFoundException("Autore con id=" + id + " non trovato"));
   }
 
-  public Authors saveAuthor(Authors author) {
-    return authorsRepository.save(author);
+  public Authors saveAuthor(AuthorRequest authorRequest) {
+    Authors autore = new Authors(authorRequest.getNome(), authorRequest.getCognome(), authorRequest.getEmail(), authorRequest.getDatadiNascita());
+    return authorsRepository.save(autore);
   }
 
   public Authors updateAuthors(int id, Authors authors) throws NotFoundException {
@@ -39,7 +41,7 @@ public class AuthorsService {
     autore.setNome(authors.getNome());
     autore.setCognome(authors.getEmail());
     autore.setEmail(authors.getEmail());
-    autore.setAvatar(authors.getAvatar());
+    autore.setAvatar("https://ui-avatars.com/api/?name=" + autore.getNome() + "+" + autore.getCognome());
     autore.setDataDiNascita(authors.getDataDiNascita());
     return authorsRepository.save(autore);
   }

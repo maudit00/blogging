@@ -2,7 +2,6 @@ package it.epicode.blogging.controller;
 
 import it.epicode.blogging.models.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +22,12 @@ public class AuthorsController {
   private AuthorsService authorsService;
 
   @GetMapping
-  public Page<Authors> getAll(Pageable pageable) {
-//    try {
-//      return CustomResponse.success(HttpStatus.OK.toString(), authorsService.getAllAuthors(pageable), HttpStatus.OK);
-//    } catch (Exception e) {
-//      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-    return authorsService.getAllAuthors(pageable);
+  public ResponseEntity<CustomResponse> getAll(Pageable pageable) {
+    try {
+      return CustomResponse.success(HttpStatus.OK.toString(), authorsService.getAllAuthors(pageable), HttpStatus.OK);
+    } catch (Exception e) {
+      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @GetMapping("/{id}")

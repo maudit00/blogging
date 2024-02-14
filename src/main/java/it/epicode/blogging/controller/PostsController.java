@@ -37,7 +37,7 @@ public class PostsController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<CustomResponse> getAuthorById(@PathVariable int id) {
+  public ResponseEntity<CustomResponse> getPostById(@PathVariable int id) {
     try {
       return CustomResponse.success(HttpStatus.OK.toString(), postService.getById(id), HttpStatus.OK);
     } catch (NotFoundException e) {
@@ -48,7 +48,7 @@ public class PostsController {
   }
 
   @PostMapping
-  public ResponseEntity<CustomResponse> saveAuto(@RequestBody PostRequest postRequest) {
+  public ResponseEntity<CustomResponse> savePost(@RequestBody PostRequest postRequest) {
     try {
       return CustomResponse.success(HttpStatus.OK.toString(), postService.savePost(postRequest), HttpStatus.OK);
     } catch (Exception e) {
@@ -57,7 +57,7 @@ public class PostsController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<CustomResponse> updateAuto(@PathVariable int id, @RequestBody PostRequest postRequest){
+  public ResponseEntity<CustomResponse> updatePost(@PathVariable int id, @RequestBody PostRequest postRequest){
     try {
       return CustomResponse.success(HttpStatus.OK.toString(), postService.updatePosts(id, postRequest), HttpStatus.OK);
     }
@@ -69,7 +69,7 @@ public class PostsController {
     }
   }
   @DeleteMapping("/{id}")
-  public ResponseEntity<CustomResponse> deleteAuto(@PathVariable int id) {
+  public ResponseEntity<CustomResponse> deletePost(@PathVariable int id) {
     try {
       postService.deletePost(id);
       return CustomResponse.emptyResponse("Post con id=" + id + " cancellato", HttpStatus.OK);

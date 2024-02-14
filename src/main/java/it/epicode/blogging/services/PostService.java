@@ -41,7 +41,7 @@ public class PostService {
     post.setTempodiLettura(postRequest.getTempodiLettura());
     post.setTitolo(postRequest.getTitolo());
     post.setAuthor(autore);
-    return post;
+    return postRepository.save(post);
   }
 
   public Posts updatePosts(int id, PostRequest postRequest) throws NotFoundException {
