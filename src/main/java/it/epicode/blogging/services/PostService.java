@@ -1,11 +1,5 @@
 package it.epicode.blogging.services;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
-import it.epicode.blogging.repository.AuthorsRepository;
 import it.epicode.blogging.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,7 +19,7 @@ public class PostService {
   @Autowired
   private PostRepository postRepository;
   @Autowired
-  private AuthorsRepository authorsRepository;
+  private AuthorsService authorsService;
 
   public Page<Posts> getAllPosts(Pageable pageable) {
     return postRepository.findAll(pageable);
@@ -37,8 +31,8 @@ public class PostService {
 
   }
 
-  public void savePost(PostRequest postRequest) {
-    Authors autore = authorsRepository.getAuthorsById(postRequest.getIdAuthor());
+  public Posts savePost(PostRequest postRequest) throws NotFoundException {
+    Authors autore = authorsService.getById(postRequest.getIdAuthor());
 
     Posts post = new Posts();
     post.setContenuto(postRequest.getContenuto());
@@ -47,16 +41,25 @@ public class PostService {
     post.setTempodiLettura(postRequest.getTempodiLettura());
     post.setTitolo(postRequest.getTitolo());
     post.setAuthor(autore);
+    return post;
   }
 
-  public Posts updatePosts(int id, Posts post) throws NotFoundException {
-    Authors autore = authorsRepository.(postRequest.getIdAuthor());
+  public Posts updatePosts(int id, PostRequest postRequest) throws NotFoundException {
+    Authors autore = authorsService.getById(postRequest.getIdAuthor());
 
-    Posts p = new Posts();
-
+    Posts post = getById(id);
+    post.setContenuto(postRequest.getContenuto());
+    post.setCover(postRequest.getCover());
+    post.setCategoria(postRequest.getCategoria());
+    post.setTempodiLettura(postRequest.getTempodiLettura());
+    post.setTitolo(postRequest.getTitolo());
+    post.setAuthor(autore);
+    return postRepository.save(post);
   }
 
-  public void deletePost(int id)  {
+  public void deletePost(int id) throws NotFoundException {
+    Posts post = getById(id);
+    postRepository.delete(post);
   }
 
 }

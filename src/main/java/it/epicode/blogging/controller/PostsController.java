@@ -5,7 +5,11 @@ import java.util.NoSuchElementException;
 
 import it.epicode.blogging.exceptions.NotFoundException;
 import it.epicode.blogging.models.Authors;
+import it.epicode.blogging.models.CustomResponse;
+import it.epicode.blogging.models.PostRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,44 +18,44 @@ import it.epicode.blogging.models.Posts;
 import it.epicode.blogging.services.PostService;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/posts")
 /**
  * PostsController
  */
 public class PostsController {
 
-//  @Autowired
-//  private PostService postService;
-//
-//  @GetMapping()
-//  public List<Posts> getAll() {
-//    return postService.getAllPosts();
-//  }
-//
-//  @GetMapping("/{id}")
-//  public ResponseEntity<Posts> getSinglePost(@PathVariable int id) throws NotFoundException {
-//    try {
-//      Posts p = postService.getById(id);
-//      return new ResponseEntity<Posts>(p, HttpStatus.OK);
-//    } catch (NoSuchElementException e){
-//      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
-//  }
-//
-//  @PostMapping()
-//  public void savePost(@RequestBody Posts post) {
-//    postService.savePost(post);
-//  }
-//
-//  @PutMapping("/{id}")
-//  public Posts updatePost(@PathVariable int id, @RequestBody Posts post) throws NotFoundException {
-//
-//    return postService.updatePosts(id, post);
-//  }
-//
-//  @DeleteMapping("/{id}")
-//  public void deletePost(@PathVariable int id) {
-//    postService.deletePost(id);
-//  }
+  @Autowired
+  private PostService postService;
+
+  @GetMapping
+  public ResponseEntity<CustomResponse> getAll(Pageable pageable) {
+    try {
+      return CustomResponse.success(HttpStatus.OK.toString(), postService.getAllPosts(pageable), HttpStatus.OK);
+    } catch (Exception e) {
+      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<CustomResponse> getAuthorById(@PathVariable int id) {
+    try {
+      return CustomResponse.success(HttpStatus.OK.toString(), postService.getById(id), HttpStatus.OK);
+    } catch (NotFoundException e) {
+      return CustomResponse.error(e.getMessage(), HttpStatus.NOT_FOUND);
+    } catch (Exception e) {
+      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @PostMapping
+  public ResponseEntity<CustomResponse> saveAuto(@RequestBody PostRequest postRequest) {
+    try {
+      return CustomResponse.success(HttpStatus.OK.toString(), postService.savePost(postRequest), HttpStatus.OK);
+    } catch (Exception e) {
+      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @PutMapping
 
 }
