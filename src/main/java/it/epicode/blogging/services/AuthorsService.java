@@ -39,7 +39,7 @@ public class AuthorsService {
     Authors autore = getById(id);
 
     autore.setNome(authors.getNome());
-    autore.setCognome(authors.getEmail());
+    autore.setCognome(authors.getCognome());
     autore.setEmail(authors.getEmail());
     autore.setAvatar("https://ui-avatars.com/api/?name=" + autore.getNome() + "+" + autore.getCognome());
     autore.setDataDiNascita(authors.getDataDiNascita());

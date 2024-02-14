@@ -1,5 +1,6 @@
 package it.epicode.blogging.controller;
 
+import it.epicode.blogging.models.AuthorRequest;
 import it.epicode.blogging.models.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -42,9 +43,9 @@ public class AuthorsController {
   }
 
   @PostMapping
-  public ResponseEntity<CustomResponse> saveAuthor(@RequestBody Authors author) {
+  public ResponseEntity<CustomResponse> saveAuthor(@RequestBody AuthorRequest authorRequest) {
     try {
-      return CustomResponse.success(HttpStatus.OK.toString(), authorsService.saveAuthor(author), HttpStatus.OK);
+      return CustomResponse.success(HttpStatus.OK.toString(), authorsService.saveAuthor(authorRequest), HttpStatus.OK);
     } catch (Exception e) {
       return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
     }
