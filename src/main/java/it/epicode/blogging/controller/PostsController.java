@@ -56,6 +56,29 @@ public class PostsController {
     }
   }
 
-  @PutMapping
+  @PutMapping("/{id}")
+  public ResponseEntity<CustomResponse> updateAuto(@PathVariable int id, @RequestBody PostRequest postRequest){
+    try {
+      return CustomResponse.success(HttpStatus.OK.toString(), postService.updatePosts(id, postRequest), HttpStatus.OK);
+    }
+    catch (NotFoundException e){
+      return CustomResponse.error(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    catch (Exception e){
+      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  @DeleteMapping("/{id}")
+  public ResponseEntity<CustomResponse> deleteAuto(@PathVariable int id) {
+    try {
+      postService.deletePost(id);
+      return CustomResponse.emptyResponse("Post con id=" + id + " cancellato", HttpStatus.OK);
+    } catch (NotFoundException e) {
+      return CustomResponse.error(e.getMessage(), HttpStatus.NOT_FOUND);
+    } catch (Exception e) {
+      return CustomResponse.error(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 
-}
+
+  }

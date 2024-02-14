@@ -20,8 +20,7 @@ public class Posts {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private int id = new Random().nextInt(1, Integer.MAX_VALUE);
-
+  private int id;
   private String categoria;
   private String titolo;
   private String cover;
