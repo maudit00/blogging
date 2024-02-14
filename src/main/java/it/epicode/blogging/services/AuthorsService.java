@@ -5,9 +5,16 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import it.epicode.blogging.exceptions.NotFoundException;
+import it.epicode.blogging.repository.AuthorsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import it.epicode.blogging.models.Authors;
+import it.epicode.blogging.repository.AuthorsRepository;
+
 
 @Service
 /**
@@ -15,34 +22,31 @@ import it.epicode.blogging.models.Authors;
  */
 public class AuthorsService {
 
-  public List<Authors> authors = new ArrayList<>();
+  @Autowired
+  private AuthorsRepository authorsRepository;
 
-  public List<Authors> getAllAuthors() {
-    return authors;
+  public Page<Authors> getAllAuthors(Pageable pageable) {
+    return authorsRepository.findAll(pageable);
   }
 
-  public Authors getById(int id) throws NoSuchElementException {
-    Optional<Authors> p = authors.stream().filter(posts -> posts.getId() == id).findAny();
-
-    if (p.isPresent()) {
-      return p.get();
-    } else {
-      throw new NoSuchElementException("Autore non trovato");
-    }
+  public Authors getById(int id) throws NotFoundException {
+    return authorsRepository.findById(id).orElseThrow(()-> new NotFoundException("Autore con id="+ id + " non trovato"));
   }
 
-  public void saveAuthor(Authors author) {
-    authors.add(author);
+  public Authors saveAuthor(Authors author){
+   return authorsRepository.save(author);
   }
 
-  public Authors updateAuthors(int id, Authors authors) {
-    Authors a = getById(id);
+  public Authors updateAuthors(int id, Authors authors) throws NotFoundException{
+  Authors autore = getById(id);
 
-    a.setNome(authors.getNome());
-    a.setCognome(authors.getCognome());
-    a.setEmail(authors.getEmail());
-    a.setDataDiNascita(authors.getDataDiNascita());
-    return a;
+  autore.setNome(authors.getNome());
+    autore.setCognome(authors.getEmail());
+    autore.setEmail(authors.getEmail());
+    autore.setAvatar(authors.getAvatar());
+    autore.setDataDiNascita(authors.getDataDiNascita());
+    
+
   }
 
   public void deleteAuthor(int id) {
