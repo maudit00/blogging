@@ -6,6 +6,8 @@ import it.epicode.blogging.repository.AuthorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import it.epicode.blogging.models.Authors;
@@ -18,6 +20,8 @@ public class AuthorsService {
 
   @Autowired
   private AuthorsRepository authorsRepository;
+  @Autowired
+  private JavaMailSenderImpl javaMailSenderImpl;
 
   public Page<Authors> getAllAuthors(Pageable pageable) {
     return authorsRepository.findAll(pageable);
@@ -48,6 +52,15 @@ public class AuthorsService {
   public void deleteAuthor(int id) throws NotFoundException {
     Authors a = getById(id);
     authorsRepository.delete(a);
+  }
+
+  private void sendMail(String email) {
+    SimpleMailMessage message = new SimpleMailMessage();
+    message.setTo(email);
+    message.setSubject("Registrazione Servizio bruca");
+    message.setText("Registrazione al servizio bruca avvenuta con successo");
+
+    javaMailSenderImpl.send(message);
   }
 
   public Authors uploadAvatar(int id, String url) throws NotFoundException {
