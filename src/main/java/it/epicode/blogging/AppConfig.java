@@ -15,10 +15,14 @@ import com.cloudinary.utils.*;
  */
 public class AppConfig {
   @Bean
-  public Cloudinary getCloudinary(@Value("${cloud.name}") String name,
-      @Value("${api.key}") String key,
-      @Value("${api.secret}") String secret) {
-    return new Cloudinary(ObjectUtils.asMap("cloud.name", name, "api.key", key, "api.secret", secret));
+  public Cloudinary getCloudinary(@Value("${cloudinary.cloud_name}") String name,
+      @Value("${cloudinary.api_key}") String key,
+      @Value("${cloudinary.api_secret}") String secret) {
+
+    return new Cloudinary(ObjectUtils.asMap(
+        "cloud_name", name,
+        "api_key", key,
+        "api_secret", secret));
 
   }
 
