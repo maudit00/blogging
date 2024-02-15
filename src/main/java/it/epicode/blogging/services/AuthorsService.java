@@ -35,6 +35,7 @@ public class AuthorsService {
   public Authors saveAuthor(AuthorRequest authorRequest) {
     Authors autore = new Authors(authorRequest.getNome(), authorRequest.getCognome(), authorRequest.getEmail(),
         authorRequest.getDatadiNascita());
+    sendMail(autore.getEmail());
     return authorsRepository.save(autore);
   }
 
