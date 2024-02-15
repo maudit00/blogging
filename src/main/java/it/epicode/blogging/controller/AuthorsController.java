@@ -1,16 +1,13 @@
 package it.epicode.blogging.controller;
 
 import it.epicode.blogging.models.AuthorRequest;
-import it.epicode.blogging.models.CustomResponse;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

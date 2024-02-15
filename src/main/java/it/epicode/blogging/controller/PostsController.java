@@ -63,7 +63,7 @@ public class PostsController {
   }
 
   @PatchMapping("/{id}/upload")
-  public Posts updatePost(@PathVariable int id, @kkjkRequestParam("upload") MultipartFile file)
+  public Posts updatePost(@PathVariable int id, @RequestParam("upload") MultipartFile file)
       throws IOException, NotFoundException {
     return postService.uploadCover(id,
         (String) cloudinary.uploader().upload(file.getBytes(), new HashMap()).get("url"));
