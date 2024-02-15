@@ -51,9 +51,7 @@ public class AppConfig {
     props.put("mail.smtp.starttls.enable", starttls);
     props.put("mail.debug", debug);
     props.put("smtp.ssl.enable", ssl);
-
     return mailSender;
-
   }
 
 }
