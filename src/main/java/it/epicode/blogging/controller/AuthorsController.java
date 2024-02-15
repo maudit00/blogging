@@ -55,7 +55,6 @@ public class AuthorsController {
     authorsService.deleteAuthor(id);
   }
 
-  /*
   @PatchMapping("/{id}/upload")
   public Authors updatePost(@PathVariable int id, @RequestParam("upload") MultipartFile file)
       throws IOException, NotFoundException {
