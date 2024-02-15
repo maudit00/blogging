@@ -62,4 +62,10 @@ public class PostService {
     postRepository.delete(post);
   }
 
+  public Posts uploadAvatar(int id, String url) throws NotFoundException {
+    Posts post = getById(id);
+    post.setCover(url);
+    return postRepository.save(post);
+  }
+
 }

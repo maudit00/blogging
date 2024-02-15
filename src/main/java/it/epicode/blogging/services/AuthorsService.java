@@ -1,7 +1,5 @@
 package it.epicode.blogging.services;
 
-
-
 import it.epicode.blogging.exceptions.NotFoundException;
 import it.epicode.blogging.models.AuthorRequest;
 import it.epicode.blogging.repository.AuthorsRepository;
@@ -31,7 +29,8 @@ public class AuthorsService {
   }
 
   public Authors saveAuthor(AuthorRequest authorRequest) {
-    Authors autore = new Authors(authorRequest.getNome(), authorRequest.getCognome(), authorRequest.getEmail(), authorRequest.getDatadiNascita());
+    Authors autore = new Authors(authorRequest.getNome(), authorRequest.getCognome(), authorRequest.getEmail(),
+        authorRequest.getDatadiNascita());
     return authorsRepository.save(autore);
   }
 
@@ -49,6 +48,12 @@ public class AuthorsService {
   public void deleteAuthor(int id) throws NotFoundException {
     Authors a = getById(id);
     authorsRepository.delete(a);
+  }
+
+  public Authors uploadAvatar(int id, String url) throws NotFoundException {
+    Authors post = getById(id);
+    post.setAvatar(url);
+    return authorsRepository.save(post);
   }
 
 }
