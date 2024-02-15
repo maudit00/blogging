@@ -27,7 +27,7 @@ public class AuthorsService {
     return authorsRepository.findAll(pageable);
   }
 
-  public Authors getById(int id) throws NotFoundException {
+  public Authors getById(int id){
     return authorsRepository.findById(id)
         .orElseThrow(() -> new NotFoundException("Autore con id=" + id + " non trovato"));
   }
@@ -39,7 +39,7 @@ public class AuthorsService {
     return authorsRepository.save(autore);
   }
 
-  public Authors updateAuthors(int id, AuthorRequest authorRequest) throws NotFoundException {
+  public Authors updateAuthors(int id, AuthorRequest authorRequest){
     Authors autore = getById(id);
 
     autore.setNome(authorRequest.getNome());
@@ -50,7 +50,7 @@ public class AuthorsService {
     return authorsRepository.save(autore);
   }
 
-  public void deleteAuthor(int id) throws NotFoundException {
+  public void deleteAuthor(int id){
     Authors a = getById(id);
     authorsRepository.delete(a);
   }
@@ -64,7 +64,7 @@ public class AuthorsService {
     javaMailSenderImpl.send(message);
   }
 
-  public Authors uploadAvatar(int id, String url) throws NotFoundException {
+  public Authors uploadAvatar(int id, String url){
     Authors post = getById(id);
     post.setAvatar(url);
     return authorsRepository.save(post);

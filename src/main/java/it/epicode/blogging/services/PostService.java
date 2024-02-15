@@ -25,13 +25,13 @@ public class PostService {
     return postRepository.findAll(pageable);
   }
 
-  public Posts getById(int id) throws NotFoundException {
+  public Posts getById(int id){
     return postRepository.findById(id)
         .orElseThrow(() -> new NotFoundException("Autore con id=" + id + " non trovato!"));
 
   }
 
-  public Posts savePost(PostRequest postRequest) throws NotFoundException {
+  public Posts savePost(PostRequest postRequest){
     Authors autore = authorsService.getById(postRequest.getIdAuthor());
 
     Posts post = new Posts();
@@ -44,7 +44,7 @@ public class PostService {
     return postRepository.save(post);
   }
 
-  public Posts updatePosts(int id, PostRequest postRequest) throws NotFoundException {
+  public Posts updatePosts(int id, PostRequest postRequest){
     Authors autore = authorsService.getById(postRequest.getIdAuthor());
 
     Posts post = getById(id);
@@ -57,12 +57,12 @@ public class PostService {
     return postRepository.save(post);
   }
 
-  public void deletePost(int id) throws NotFoundException {
+  public void deletePost(int id){
     Posts post = getById(id);
     postRepository.delete(post);
   }
 
-  public Posts uploadCover(int id, String url) throws NotFoundException {
+  public Posts uploadCover(int id, String url){
     Posts post = getById(id);
     post.setCover(url);
     return postRepository.save(post);
